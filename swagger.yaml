@@ -1,0 +1,43 @@
+swagger: "2.0"
+info:
+  description: This microservice will take care of narrowers after deletion or deprecation of a concept. If a narrower was not published, it's publication status will be 'deleted'. If a narrower was published, it's publication status will be 'ready for deprecation'. It only logs errors, doesn't return them.
+  version: 1.0.0
+  title: Narrower Handler
+  contact:
+    email: nora.szepes@tenforce.com
+basePath: /
+schemes:
+- http
+paths:
+  /narrower-handler/handleNarrowers/{id}:
+    get:
+      summary: Handle narrowers for a concept
+      description: If a narrower fo this concept was not published, it's publication status will be 'deleted'. If a narrower of this concept was published, it's publication status will be 'ready for deprecation'.
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Concept's id.
+        type: string
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Status'
+          description:  Response on success
+
+
+definitions:
+  Status:
+    type: object
+    description: A status message.
+    properties:
+      status:
+        type: string
+        description:  A short status message to indicate that the call was succesful.
+    example:
+      status: "Narrowers were handled for the concept with id: {id}."
+
+
+ 
